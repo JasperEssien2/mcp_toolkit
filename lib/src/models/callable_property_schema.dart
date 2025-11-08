@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 sealed class CallablePropertySchema extends Equatable {
-  const CallablePropertySchema({this.name, this.description, this.isRequired});
+  const CallablePropertySchema({required this.name, this.description, this.isRequired});
 
-  final String? name;
+  final String name;
   final String? description;
   final bool? isRequired;
 
@@ -12,23 +12,23 @@ sealed class CallablePropertySchema extends Equatable {
 }
 
 class StringSchema extends CallablePropertySchema {
-  const StringSchema({super.name, super.description, super.isRequired});
+  const StringSchema({required super.name, super.description, super.isRequired});
 }
 
 class BooleanSchema extends CallablePropertySchema {
-  const BooleanSchema({super.name, super.description, super.isRequired});
+  const BooleanSchema({required super.name, super.description, super.isRequired});
 }
 
 class NumberSchema extends CallablePropertySchema {
-  const NumberSchema({super.name, super.description, super.isRequired});
+  const NumberSchema({required super.name, super.description, super.isRequired});
 }
 
 class IntSchema extends CallablePropertySchema {
-  const IntSchema({super.name, super.description, super.isRequired});
+  const IntSchema({required super.name, super.description, super.isRequired});
 }
 
 class ListSchema extends CallablePropertySchema {
-  const ListSchema({super.name, super.description, super.isRequired, required this.type});
+  const ListSchema({required super.name, super.description, super.isRequired, required this.type});
 
   final ListType type;
 
@@ -37,7 +37,7 @@ class ListSchema extends CallablePropertySchema {
 }
 
 class EnumSchema extends CallablePropertySchema {
-  const EnumSchema({super.name, super.description, super.isRequired, required this.options});
+  const EnumSchema({required super.name, super.description, super.isRequired, required this.options});
 
   final List<String> options;
 
@@ -46,7 +46,7 @@ class EnumSchema extends CallablePropertySchema {
 }
 
 class ObjectSchema extends CallablePropertySchema {
-  const ObjectSchema({super.name, super.description, super.isRequired, required this.properties});
+  const ObjectSchema({required super.name, super.description, super.isRequired, required this.properties});
 
   final List<CallablePropertySchema> properties;
 
@@ -55,11 +55,11 @@ class ObjectSchema extends CallablePropertySchema {
 }
 
 class NullSchema extends CallablePropertySchema {
-  const NullSchema({super.name, super.description, super.isRequired});
+  const NullSchema({required super.name, super.description, super.isRequired});
 }
 
 class InvalidSchema extends CallablePropertySchema {
-  const InvalidSchema({super.name, super.description, super.isRequired = false, required this.error});
+  const InvalidSchema({required super.name, super.description, super.isRequired = false, required this.error});
 
   final String error;
 

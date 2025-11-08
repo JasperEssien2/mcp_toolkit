@@ -47,8 +47,8 @@ class ModelToolMapper {
   CallablePropertySchema _handleOtherType(
     VariableMirror value, {
     required String name,
-    required String description,
-    required bool isRequired,
+    required String? description,
+    required bool? isRequired,
   }) {
     final reflected = reflectClass(value.type.reflectedType);
 
