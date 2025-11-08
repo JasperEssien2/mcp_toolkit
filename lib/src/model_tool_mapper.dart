@@ -5,8 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:mcp_toolkit/src/annotations/annotations.dart';
 import 'package:meta/meta.dart';
 
-class ToolExtractor {
-  ToolExtractor({required this.toolInput});
+class ModelToolMapper {
+  ModelToolMapper({required this.toolInput});
 
   final List<Type> toolInput;
 
