@@ -13,14 +13,11 @@ class ModelToolMapper {
   CallableTool? extract(Type tool) {
     final reflected = reflectClass(tool);
 
-    if (reflected.metadata
-            .firstWhereOrNull((e) => e.reflectee is MCPToolInput)
-            ?.reflectee
-        case MCPToolInput(
-          toolName: final name,
-          toolDescription: final description,
-        )) {
-      List<CallablePropertySchema> properties = _getCallablePropertiesFromClass(
+    if (reflected.metadata.firstWhereOrNull((e) => e.reflectee is MCPToolInput)?.reflectee case MCPToolInput(
+      toolName: final name,
+      toolDescription: final description,
+    )) {
+      final properties = _getCallablePropertiesFromClass(
         reflected,
       );
 
@@ -63,7 +60,7 @@ class ModelToolMapper {
 
     final options = reflected.declarations.keys
         .where((e) => _isEnumValue(e, reflected))
-        .map((e) => MirrorSystem.getName(e))
+        .map(MirrorSystem.getName)
         .toList();
 
     if (reflected.isEnum) {
@@ -85,8 +82,7 @@ class ModelToolMapper {
       );
     }
 
-    if (_getCallablePropertiesFromClass(reflected) case final properties
-        when properties.isNotEmpty) {
+    if (_getCallablePropertiesFromClass(reflected) case final properties when properties.isNotEmpty) {
       return ObjectSchema(
         name: name,
         description: description,
@@ -111,11 +107,10 @@ class ModelToolMapper {
     _ => true,
   };
 
+  // ignore: avoid_dynamic
   dynamic _findCallableToolPropertyFromDeclaration(
     MapEntry<Symbol, DeclarationMirror> declaration,
-  ) => declaration.value.metadata
-      .firstWhereOrNull((e) => e.reflectee is MCPToolProperty)
-      ?.reflectee;
+  ) => declaration.value.metadata.firstWhereOrNull((e) => e.reflectee is MCPToolProperty)?.reflectee;
 
   List<CallablePropertySchema> _getCallablePropertiesFromClass(
     ClassMirror reflected,
@@ -123,51 +118,37 @@ class ModelToolMapper {
     final properties = <CallablePropertySchema>[];
 
     for (final declaration in reflected.declarations.entries) {
-      if (_findCallableToolPropertyFromDeclaration(declaration)
-          case MCPToolProperty(
-            :final description,
-            :final isRequired,
-            :final name,
-          )) {
-        final fieldName =
-            name ?? MirrorSystem.getName(declaration.value.simpleName);
+      if (_findCallableToolPropertyFromDeclaration(declaration) case MCPToolProperty(
+        :final description,
+        :final isRequired,
+        :final name,
+      )) {
+        final fieldName = name ?? MirrorSystem.getName(declaration.value.simpleName);
 
         if (declaration.value case VariableMirror()) {
-          final property =
-              switch ((declaration.value as VariableMirror).type.simpleName) {
-                #int => IntSchema(
-                  name: fieldName,
-                  description: description,
-                  isRequired: isRequired,
-                ),
-                #num => NumberSchema(
-                  name: fieldName,
-                  description: description,
-                  isRequired: isRequired,
-                ),
-                #String => StringSchema(
-                  name: fieldName,
-                  description: description,
-                  isRequired: isRequired,
-                ),
-                #bool => BooleanSchema(
-                  name: fieldName,
-                  description: description,
-                  isRequired: isRequired,
-                ),
-                #List => _handleList(
-                  declaration.value as VariableMirror,
-                  name: fieldName,
-                  description: description,
-                  isRequired: isRequired,
-                ),
-                _ => _handleOtherType(
-                  declaration.value as VariableMirror,
-                  name: fieldName,
-                  description: description,
-                  isRequired: isRequired,
-                ),
-              };
+          final property = switch ((declaration.value as VariableMirror).type.simpleName) {
+            #int => IntSchema(name: fieldName, description: description, isRequired: isRequired),
+            #num => NumberSchema(name: fieldName, description: description, isRequired: isRequired),
+            #String => StringSchema(name: fieldName, description: description, isRequired: isRequired),
+            #bool => BooleanSchema(
+              name: fieldName,
+              description: description,
+              isRequired: isRequired,
+            ),
+            #List => _handleList(
+              declaration.value as VariableMirror,
+              name: fieldName,
+              description: description,
+              isRequired: isRequired,
+            ),
+            _ => _handleOtherType(
+              declaration.value as VariableMirror,
+              name: fieldName,
+              description: description,
+              isRequired: isRequired,
+            ),
+          };
+
           properties.add(property);
         }
       }
@@ -177,13 +158,8 @@ class ModelToolMapper {
   }
 }
 
-@visibleForTesting
 class CallableTool extends Equatable {
-  const CallableTool({
-    required this.toolName,
-    required this.toolDescription,
-    required this.properties,
-  });
+  const CallableTool({required this.toolName, required this.toolDescription, required this.properties});
 
   final String toolName;
   final String toolDescription;
@@ -193,13 +169,8 @@ class CallableTool extends Equatable {
   List<Object> get props => [toolName, toolDescription, properties];
 }
 
-@visibleForTesting
 sealed class CallablePropertySchema extends Equatable {
-  const CallablePropertySchema({
-    required this.name,
-    required this.description,
-    required this.isRequired,
-  });
+  const CallablePropertySchema({required this.name, required this.description, required this.isRequired});
 
   final String name;
   final String description;
@@ -210,44 +181,23 @@ sealed class CallablePropertySchema extends Equatable {
 }
 
 class StringSchema extends CallablePropertySchema {
-  const StringSchema({
-    required super.name,
-    required super.description,
-    required super.isRequired,
-  });
+  const StringSchema({required super.name, required super.description, required super.isRequired});
 }
 
 class BooleanSchema extends CallablePropertySchema {
-  const BooleanSchema({
-    required super.name,
-    required super.description,
-    required super.isRequired,
-  });
+  const BooleanSchema({required super.name, required super.description, required super.isRequired});
 }
 
 class NumberSchema extends CallablePropertySchema {
-  const NumberSchema({
-    required super.name,
-    required super.description,
-    required super.isRequired,
-  });
+  const NumberSchema({required super.name, required super.description, required super.isRequired});
 }
 
 class IntSchema extends CallablePropertySchema {
-  const IntSchema({
-    required super.name,
-    required super.description,
-    required super.isRequired,
-  });
+  const IntSchema({required super.name, required super.description, required super.isRequired});
 }
 
 class ListSchema extends CallablePropertySchema {
-  const ListSchema({
-    required super.name,
-    required super.description,
-    required super.isRequired,
-    required this.type,
-  });
+  const ListSchema({required super.name, required super.description, required super.isRequired, required this.type});
 
   final ListType type;
 
@@ -256,12 +206,7 @@ class ListSchema extends CallablePropertySchema {
 }
 
 class EnumSchema extends CallablePropertySchema {
-  const EnumSchema({
-    required super.name,
-    required super.description,
-    required super.isRequired,
-    required this.options,
-  });
+  const EnumSchema({required super.name, required super.description, required super.isRequired, required this.options});
 
   final List<String> options;
 
@@ -284,20 +229,11 @@ class ObjectSchema extends CallablePropertySchema {
 }
 
 class NullSchema extends CallablePropertySchema {
-  const NullSchema({
-    required super.name,
-    required super.description,
-    required super.isRequired,
-  });
+  const NullSchema({required super.name, required super.description, required super.isRequired});
 }
 
 class InvalidSchema extends CallablePropertySchema {
-  InvalidSchema({
-    required super.name,
-    required super.description,
-    super.isRequired = false,
-    required this.error,
-  });
+  const InvalidSchema({required super.name, required super.description, super.isRequired = false, required this.error});
 
   final String error;
 

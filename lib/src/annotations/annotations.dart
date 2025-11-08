@@ -11,11 +11,7 @@ class MCPToolInput extends Equatable {
 }
 
 class MCPToolProperty extends Equatable {
-  const MCPToolProperty({
-    required this.description,
-    this.isRequired = true,
-    this.name,
-  });
+  const MCPToolProperty({required this.description, this.isRequired = true, this.name});
 
   final String description;
   final bool isRequired;
