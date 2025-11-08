@@ -28,8 +28,8 @@ class ModelToolMapper {
   ListSchema _handleList(
     VariableMirror value, {
     required String name,
-    required String description,
-    required bool isRequired,
+    required String? description,
+    required bool? isRequired,
   }) => ListSchema(
     name: name,
     description: description,
