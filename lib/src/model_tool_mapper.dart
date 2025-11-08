@@ -3,7 +3,6 @@ import 'dart:mirrors';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mcp_toolkit/src/annotations/annotations.dart';
-import 'package:meta/meta.dart';
 
 class ModelToolMapper {
   ModelToolMapper({required this.toolInput});
