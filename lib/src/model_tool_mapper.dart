@@ -35,12 +35,15 @@ class ModelToolMapper {
     description: description,
     isRequired: isRequired,
     type: switch (value.type.typeArguments.firstOrNull?.simpleName) {
-      #int => ListType.int,
-      #num => ListType.num,
-      #String => ListType.string,
-      #bool => ListType.boolean,
+      #int => const IntSchema.type(),
+      #num => const NumberSchema.type(),
+      #String => const StringSchema.type(),
+      #bool => const BooleanSchema.type(),
       // TODO(jasperessien): Handle object type and enumerated type
-      _ => ListType.unknown,
+      final symbol => InvalidSchema(
+        name: '',
+        error: 'Cannot handle list type: ${MirrorSystem.getName(symbol ?? Symbol.empty)}',
+      ),
     },
   );
 
@@ -58,7 +61,7 @@ class ModelToolMapper {
         .toList();
 
     if (reflected.isEnum) {
-      // TODO(jasperessien): What happens when enum has variables?
+      // TODO(jasperessien): What happens when enum has variables? and methods {basically enhanced enum features}
       return EnumSchema(name: name, description: description, isRequired: isRequired, options: options);
     }
 

@@ -13,24 +13,32 @@ sealed class CallablePropertySchema extends Equatable {
 
 class StringSchema extends CallablePropertySchema {
   const StringSchema({required super.name, super.description, super.isRequired});
+
+  const StringSchema.type() : super(name: '');
 }
 
 class BooleanSchema extends CallablePropertySchema {
   const BooleanSchema({required super.name, super.description, super.isRequired});
+
+  const BooleanSchema.type() : super(name: '');
 }
 
 class NumberSchema extends CallablePropertySchema {
   const NumberSchema({required super.name, super.description, super.isRequired});
+
+  const NumberSchema.type() : super(name: '');
 }
 
 class IntSchema extends CallablePropertySchema {
   const IntSchema({required super.name, super.description, super.isRequired});
+
+  const IntSchema.type() : super(name: '');
 }
 
 class ListSchema extends CallablePropertySchema {
   const ListSchema({required super.name, super.description, super.isRequired, required this.type});
 
-  final ListType type;
+  final CallablePropertySchema type;
 
   @override
   List<Object?> get props => [...super.props, type];
@@ -66,5 +74,3 @@ class InvalidSchema extends CallablePropertySchema {
   @override
   List<Object?> get props => [...super.props, error];
 }
-
-enum ListType { int, num, string, boolean, enumerated, object, unknown }

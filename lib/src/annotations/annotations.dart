@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+// TODO(jasperessien): Apply error lint to avoid using for invalid cases
 class MCPToolInput extends Equatable {
   const MCPToolInput({required this.toolName, this.toolDescription});
 
