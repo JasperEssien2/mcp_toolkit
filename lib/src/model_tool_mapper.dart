@@ -14,9 +14,12 @@ class ModelToolMapper {
     final reflected = reflectClass(tool);
 
     if (reflected.metadata
-            .firstWhereOrNull((e) => e.reflectee is CallableToolInput)
+            .firstWhereOrNull((e) => e.reflectee is MCPToolInput)
             ?.reflectee
-        case CallableToolInput(:final name, :final description)) {
+        case MCPToolInput(
+          toolName: final name,
+          toolDescription: final description,
+        )) {
       List<CallablePropertySchema> properties = _getCallablePropertiesFromClass(
         reflected,
       );
@@ -111,7 +114,7 @@ class ModelToolMapper {
   dynamic _findCallableToolPropertyFromDeclaration(
     MapEntry<Symbol, DeclarationMirror> declaration,
   ) => declaration.value.metadata
-      .firstWhereOrNull((e) => e.reflectee is CallableToolProperty)
+      .firstWhereOrNull((e) => e.reflectee is MCPToolProperty)
       ?.reflectee;
 
   List<CallablePropertySchema> _getCallablePropertiesFromClass(
@@ -121,7 +124,7 @@ class ModelToolMapper {
 
     for (final declaration in reflected.declarations.entries) {
       if (_findCallableToolPropertyFromDeclaration(declaration)
-          case CallableToolProperty(
+          case MCPToolProperty(
             :final description,
             :final isRequired,
             :final name,
