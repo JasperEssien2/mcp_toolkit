@@ -6,12 +6,14 @@ import 'package:mcp_toolkit/src/models/callable_property_schema.dart';
 import 'package:mcp_toolkit/src/models/callable_tool.dart';
 
 class ModelToolMapper {
-  ModelToolMapper({required this.toolInput});
+  ModelToolMapper({required this.toolModelTypes});
 
-  final List<Type> toolInput;
+  final List<Type> toolModelTypes;
 
-  CallableTool? extract(Type tool) {
-    final reflected = reflectClass(tool);
+  List<CallableTool> callableTools() => [for (final input in toolModelTypes) ?_callableToolFromInputType(input)];
+
+  CallableTool? _callableToolFromInputType(Type toolInput) {
+    final reflected = reflectClass(toolInput);
 
     if (reflected.metadata.firstWhereOrNull((e) => e.reflectee is MCPToolInput)?.reflectee case MCPToolInput(
       toolName: final name,
