@@ -5,6 +5,7 @@ import 'package:mcp_toolkit/src/annotations/annotations.dart';
 import 'package:mcp_toolkit/src/models/callable_property_schema.dart';
 import 'package:mcp_toolkit/src/models/callable_tool.dart';
 
+//TODO(jasperessien): Introduce a method, get callable tool by name, use hash map implementation, maybe create initialize()
 class MCPModelToolMapper {
   MCPModelToolMapper({required this.toolModelTypes});
 
