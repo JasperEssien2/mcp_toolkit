@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 class MCPToolInput extends Equatable {
-  const MCPToolInput({required this.toolName, required this.toolDescription});
+  const MCPToolInput({required this.toolName, this.toolDescription});
 
   final String toolName;
-  final String toolDescription;
+  final String? toolDescription;
 
   @override
-  List<Object> get props => [toolName, toolDescription];
+  List<Object?> get props => [toolName, toolDescription];
 }
 
 class MCPToolProperty extends Equatable {
