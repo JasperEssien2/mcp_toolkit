@@ -1,43 +1,51 @@
 import 'package:equatable/equatable.dart';
 
 sealed class CallablePropertySchema extends Equatable {
-  const CallablePropertySchema({required this.name, required this.description, required this.isRequired});
+  const CallablePropertySchema({required this.name, this.description, this.isRequired});
 
   final String name;
-  final String description;
-  final bool isRequired;
+  final String? description;
+  final bool? isRequired;
 
   @override
   List<Object?> get props => [name, description, isRequired];
 }
 
 class StringSchema extends CallablePropertySchema {
-  const StringSchema({required super.name, required super.description, required super.isRequired});
+  const StringSchema({required super.name, super.description, super.isRequired});
+
+  const StringSchema.type() : super(name: '');
 }
 
 class BooleanSchema extends CallablePropertySchema {
-  const BooleanSchema({required super.name, required super.description, required super.isRequired});
+  const BooleanSchema({required super.name, super.description, super.isRequired});
+
+  const BooleanSchema.type() : super(name: '');
 }
 
 class NumberSchema extends CallablePropertySchema {
-  const NumberSchema({required super.name, required super.description, required super.isRequired});
+  const NumberSchema({required super.name, super.description, super.isRequired});
+
+  const NumberSchema.type() : super(name: '');
 }
 
 class IntSchema extends CallablePropertySchema {
-  const IntSchema({required super.name, required super.description, required super.isRequired});
+  const IntSchema({required super.name, super.description, super.isRequired});
+
+  const IntSchema.type() : super(name: '');
 }
 
 class ListSchema extends CallablePropertySchema {
-  const ListSchema({required super.name, required super.description, required super.isRequired, required this.type});
+  const ListSchema({required super.name, super.description, super.isRequired, required this.type});
 
-  final ListType type;
+  final CallablePropertySchema type;
 
   @override
   List<Object?> get props => [...super.props, type];
 }
 
 class EnumSchema extends CallablePropertySchema {
-  const EnumSchema({required super.name, required super.description, required super.isRequired, required this.options});
+  const EnumSchema({required super.name, super.description, super.isRequired, required this.options});
 
   final List<String> options;
 
@@ -46,12 +54,7 @@ class EnumSchema extends CallablePropertySchema {
 }
 
 class ObjectSchema extends CallablePropertySchema {
-  const ObjectSchema({
-    required super.name,
-    required super.description,
-    required super.isRequired,
-    required this.properties,
-  });
+  const ObjectSchema({required super.name, super.description, super.isRequired, required this.properties});
 
   final List<CallablePropertySchema> properties;
 
@@ -60,16 +63,14 @@ class ObjectSchema extends CallablePropertySchema {
 }
 
 class NullSchema extends CallablePropertySchema {
-  const NullSchema({required super.name, required super.description, required super.isRequired});
+  const NullSchema({required super.name, super.description, super.isRequired});
 }
 
 class InvalidSchema extends CallablePropertySchema {
-  const InvalidSchema({required super.name, required super.description, super.isRequired = false, required this.error});
+  const InvalidSchema({required super.name, super.description, super.isRequired = false, required this.error});
 
   final String error;
 
   @override
   List<Object?> get props => [...super.props, error];
 }
-
-enum ListType { int, num, string, boolean, enumerated, object, unknown }
