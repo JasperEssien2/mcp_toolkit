@@ -8,10 +8,12 @@ import 'package:mcp_toolkit/src/models/callable_tool.dart';
 class MCPModelToolMapper {
   MCPModelToolMapper({required this.toolInput});
 
-  final List<Type> toolInput;
+  final List<Type> toolModelTypes;
 
-  CallableTool? extract(Type tool) {
-    final reflected = reflectClass(tool);
+  List<CallableTool> callableTools() => [for (final input in toolModelTypes) ?_callableToolFromInputType(input)];
+
+  CallableTool? _callableToolFromInputType(Type toolInput) {
+    final reflected = reflectClass(toolInput);
 
     if (reflected.metadata.firstWhereOrNull((e) => e.reflectee is MCPToolInput)?.reflectee case MCPToolInput(
       toolName: final name,
@@ -28,37 +30,36 @@ class MCPModelToolMapper {
   ListSchema _handleList(
     VariableMirror value, {
     required String name,
-    required String description,
-    required bool isRequired,
+    required String? description,
+    required bool? isRequired,
   }) => ListSchema(
     name: name,
     description: description,
     isRequired: isRequired,
     type: switch (value.type.typeArguments.firstOrNull?.simpleName) {
-      #int => ListType.int,
-      #num => ListType.num,
-      #String => ListType.string,
-      #bool => ListType.boolean,
-      // TODO(jasperessien): Handle object type and enumerated type
-      _ => ListType.unknown,
+      #int => const IntSchema.type(),
+      #num => const NumberSchema.type(),
+      #String => const StringSchema.type(),
+      #bool => const BooleanSchema.type(),
+      _ => _handleOtherType(type: value.type.reflectedType, name: '', description: null, isRequired: null),
     },
   );
 
-  CallablePropertySchema _handleOtherType(
-    VariableMirror value, {
+  CallablePropertySchema _handleOtherType({
+    required Type type,
     required String name,
-    required String description,
-    required bool isRequired,
+    required String? description,
+    required bool? isRequired,
   }) {
-    final reflected = reflectClass(value.type.reflectedType);
-
-    final options = reflected.declarations.keys
-        .where((e) => _isEnumValue(e, reflected))
-        .map(MirrorSystem.getName)
-        .toList();
+    final reflected = reflectClass(type);
 
     if (reflected.isEnum) {
-      // TODO(jasperessien): What happens when enum has variables?
+      final options = reflected.declarations.keys
+          .where((e) => _isEnumValue(e, reflected))
+          .map(MirrorSystem.getName)
+          .toList();
+
+      // TODO(jasperessien): What happens when enum has variables? and methods {basically enhanced enum features}
       return EnumSchema(name: name, description: description, isRequired: isRequired, options: options);
     }
 
@@ -111,7 +112,7 @@ class MCPModelToolMapper {
               isRequired: isRequired,
             ),
             _ => _handleOtherType(
-              declaration.value as VariableMirror,
+              type: (declaration.value as VariableMirror).type.reflectedType,
               name: fieldName,
               description: description,
               isRequired: isRequired,
