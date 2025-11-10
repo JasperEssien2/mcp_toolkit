@@ -6,7 +6,7 @@ import 'package:mcp_toolkit/src/models/callable_property_schema.dart';
 import 'package:mcp_toolkit/src/models/callable_tool.dart';
 
 class MCPModelToolMapper {
-  MCPModelToolMapper({required this.toolInput});
+  MCPModelToolMapper({required this.toolModelTypes});
 
   final List<Type> toolModelTypes;
 
