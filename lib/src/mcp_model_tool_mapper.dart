@@ -73,7 +73,7 @@ class MCPModelToolMapper {
           .map((e) => MirrorSystem.getName(e.key))
           .toList();
 
-      // TODO(jasperessien): What happens when enum has variables?
+      // TODO(jasperessien): Figure out a way to prevent variables as part of EnnumSchema options
       return EnumSchema(name: name, description: description, isRequired: isRequired, options: options);
     }
 
