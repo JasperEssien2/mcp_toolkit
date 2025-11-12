@@ -11,6 +11,7 @@ class MCPToolInput extends Equatable {
   List<Object?> get props => [toolName, toolDescription];
 }
 
+// TODO(jasperessien): dart:mirror `paramMirror.isOptional` always returns true for named parameters
 class MCPToolProperty extends Equatable {
   const MCPToolProperty({this.description, this.isRequired, this.name});
 
