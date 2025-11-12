@@ -6,169 +6,171 @@ import 'package:test/test.dart';
 
 void main() {
   group('MCPModelToolMapper', () {
-    test('ensure mapper returns correct structure for SimpleToolModel', () {
-      final model = MCPModelToolMapper(toolModelTypes: [SimpleToolInput]);
+    group('Test callableTools', () {
+      test('ensure mapper returns correct structure for SimpleToolModel', () {
+        final model = MCPModelToolMapper(toolInput: [SimpleToolInput]);
 
-      expect(
-        model.callableTools(),
-        [
-          const CallableTool(
-            toolName: 'simple_tool',
-            toolDescription: 'A simple test tool',
-            properties: [
-              StringSchema(name: 'param1', description: 'The first parameter', isRequired: true),
-              IntSchema(name: 'param2', description: 'The second parameter', isRequired: false),
-              BooleanSchema(name: 'boolean_param', description: 'The third parameter', isRequired: false),
-            ],
-          ),
-        ],
-      );
-    });
+        expect(
+          model.callableTools,
+          [
+            const CallableTool(
+              toolName: 'simple_tool',
+              toolDescription: 'A simple test tool',
+              properties: [
+                StringSchema(name: 'param1', description: 'The first parameter', isRequired: true),
+                IntSchema(name: 'param2', description: 'The second parameter', isRequired: false),
+                BooleanSchema(name: 'boolean_param', description: 'The third parameter', isRequired: false),
+              ],
+            ),
+          ],
+        );
+      });
 
-    test('ensure mapper returns correct structure for ComplexToolInput', () {
-      final model = MCPModelToolMapper(toolModelTypes: [ComplexToolInput]);
+      test('ensure mapper returns correct structure for ComplexToolInput', () {
+        final model = MCPModelToolMapper(toolInput: [ComplexToolInput]);
 
-      expect(
-        model.callableTools(),
-        [
-          const CallableTool(
-            toolName: 'complex_tool',
-            properties: [
-              StringSchema(name: 'name', description: 'User name', isRequired: true),
-              IntSchema(name: 'age', description: 'User age'),
-              ListSchema(name: 'items', description: 'List of items', type: StringSchema.type()),
-              ObjectSchema(
-                name: 'nested',
-                description: 'Nested object',
-                properties: [
-                  StringSchema(name: 'nested_id', isRequired: true),
-                  BooleanSchema(name: 'value'),
-                ],
-              ),
-              EnumSchema(name: 'status', description: 'Status of the user', options: ['value1', 'value2']),
-            ],
-          ),
-        ],
-      );
-    });
-
-    test('ensure mapper returns correct structure for ListOfObjectsToolInput', () {
-      final model = MCPModelToolMapper(toolModelTypes: [ListOfObjectsToolInput]);
-
-      expect(
-        model.callableTools(),
-        [
-          const CallableTool(
-            toolName: 'list_of_objects_tool',
-            properties: [
-              ListSchema(
-                name: 'data',
-                description: 'List of data objects',
-                type: ObjectSchema(
-                  name: '',
+        expect(
+          model.callableTools,
+          [
+            const CallableTool(
+              toolName: 'complex_tool',
+              properties: [
+                StringSchema(name: 'name', description: 'User name', isRequired: true),
+                IntSchema(name: 'age', description: 'User age'),
+                ListSchema(name: 'items', description: 'List of items', type: StringSchema.type()),
+                ObjectSchema(
+                  name: 'nested',
+                  description: 'Nested object',
                   properties: [
                     StringSchema(name: 'nested_id', isRequired: true),
                     BooleanSchema(name: 'value'),
                   ],
                 ),
-              ),
-            ],
-          ),
-        ],
-      );
-    });
+                EnumSchema(name: 'status', description: 'Status of the user', options: ['value1', 'value2']),
+              ],
+            ),
+          ],
+        );
+      });
 
-    test('ensure mapper returns correct structure for CustomNamesToolInput', () {
-      final model = MCPModelToolMapper(toolModelTypes: [CustomNamesToolInput]);
+      test('ensure mapper returns correct structure for ListOfObjectsToolInput', () {
+        final model = MCPModelToolMapper(toolInput: [ListOfObjectsToolInput]);
 
-      expect(
-        model.callableTools(),
-        [
-          const CallableTool(
-            toolName: 'tool_with_custom_names',
-            properties: [
-              StringSchema(name: 'custom_first_param', description: 'Custom named first parameter'),
-              IntSchema(name: 'custom_second_param'),
-            ],
-          ),
-        ],
-      );
-    });
+        expect(
+          model.callableTools,
+          [
+            const CallableTool(
+              toolName: 'list_of_objects_tool',
+              properties: [
+                ListSchema(
+                  name: 'data',
+                  description: 'List of data objects',
+                  type: ObjectSchema(
+                    name: '',
+                    properties: [
+                      StringSchema(name: 'nested_id', isRequired: true),
+                      BooleanSchema(name: 'value'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      });
 
-    test('ensure mapper returns correct structure for NoPropertiesToolInput', () {
-      final model = MCPModelToolMapper(toolModelTypes: [NoPropertiesToolInput]);
+      test('ensure mapper returns correct structure for CustomNamesToolInput', () {
+        final model = MCPModelToolMapper(toolInput: [CustomNamesToolInput]);
 
-      expect(
-        model.callableTools(),
-        [
-          const CallableTool(
-            toolName: 'no_properties_tool',
-            properties: [],
-          ),
-        ],
-      );
-    });
+        expect(
+          model.callableTools,
+          [
+            const CallableTool(
+              toolName: 'tool_with_custom_names',
+              properties: [
+                StringSchema(name: 'custom_first_param', description: 'Custom named first parameter'),
+                IntSchema(name: 'custom_second_param'),
+              ],
+            ),
+          ],
+        );
+      });
 
-    test('ensure mapper ignores classes without MCPToolInput annotation', () {
-      final model = MCPModelToolMapper(toolModelTypes: [NoAnnotationToolInput]);
+      test('ensure mapper returns correct structure for NoPropertiesToolInput', () {
+        final model = MCPModelToolMapper(toolInput: [NoPropertiesToolInput]);
 
-      expect(model.callableTools(), isEmpty);
-    });
+        expect(
+          model.callableTools,
+          [
+            const CallableTool(
+              toolName: 'no_properties_tool',
+              properties: [],
+            ),
+          ],
+        );
+      });
 
-    test('ensure mapper returns InvalidSchema for UnsupportedRecordToolInput', () {
-      final model = MCPModelToolMapper(toolModelTypes: [UnsupportedRecordToolInput]);
+      test('ensure mapper ignores classes without MCPToolInput annotation', () {
+        final model = MCPModelToolMapper(toolInput: [NoAnnotationToolInput]);
 
-      expect(
-        model.callableTools(),
-        [
-          const CallableTool(
-            toolName: 'unsupported_record_tool',
-            properties: [
-              InvalidSchema(name: 'record', error: 'Does not support Record type'),
-            ],
-          ),
-        ],
-      );
-    });
+        expect(model.callableTools, isEmpty);
+      });
 
-    test('ensure mapper returns an empty list for empty toolModelTypes', () {
-      final model = MCPModelToolMapper(toolModelTypes: []);
+      test('ensure mapper returns InvalidSchema for UnsupportedRecordToolInput', () {
+        final model = MCPModelToolMapper(toolInput: [UnsupportedRecordToolInput]);
 
-      expect(model.callableTools(), isEmpty);
-    });
+        expect(
+          model.callableTools,
+          [
+            const CallableTool(
+              toolName: 'unsupported_record_tool',
+              properties: [
+                InvalidSchema(name: 'record', error: 'Does not support Record type'),
+              ],
+            ),
+          ],
+        );
+      });
 
-    test('ensure mapper returns an empty list for a tool with MCPToolInput but no properties', () {
-      final model = MCPModelToolMapper(toolModelTypes: [ToolWithNoPropertiesButAnnotation]);
+      test('ensure mapper returns an empty list for empty toolModelTypes', () {
+        final model = MCPModelToolMapper(toolInput: []);
 
-      expect(
-        model.callableTools(),
-        [
-          const CallableTool(
-            toolName: 'tool_with_no_properties_but_annotation',
-            properties: [],
-          ),
-        ],
-      );
-    });
+        expect(model.callableTools, isEmpty);
+      });
 
-    test('ensure mapper ignores classes with MCPToolProperty annotations but no MCPToolInput annotation', () {
-      final model = MCPModelToolMapper(toolModelTypes: [ToolWithPropertiesButNoInputAnnotation]);
+      test('ensure mapper returns an empty list for a tool with MCPToolInput but no properties', () {
+        final model = MCPModelToolMapper(toolInput: [ToolWithNoPropertiesButAnnotation]);
 
-      expect(model.callableTools(), isEmpty);
-    });
+        expect(
+          model.callableTools,
+          [
+            const CallableTool(
+              toolName: 'tool_with_no_properties_but_annotation',
+              properties: [],
+            ),
+          ],
+        );
+      });
 
-    test('ensure mapper ignores classes with MCPToolProperty annotations but no MCPToolInput annotation', () {
-      final model = MCPModelToolMapper(toolModelTypes: [ToolWithPropertiesButNoInputAnnotation]);
+      test('ensure mapper ignores classes with MCPToolProperty annotations but no MCPToolInput annotation', () {
+        final model = MCPModelToolMapper(toolInput: [ToolWithPropertiesButNoInputAnnotation]);
 
-      expect(model.callableTools(), isEmpty);
+        expect(model.callableTools, isEmpty);
+      });
+
+      test('ensure mapper ignores classes with MCPToolProperty annotations but no MCPToolInput annotation', () {
+        final model = MCPModelToolMapper(toolInput: [ToolWithPropertiesButNoInputAnnotation]);
+
+        expect(model.callableTools, isEmpty);
+      });
     });
   });
 
   test('ensure mapper returns correct structure for EnumWithMethodsToolInput', () {
-    final model = MCPModelToolMapper(toolModelTypes: [EnumWithMethodsToolInput]);
+    final model = MCPModelToolMapper(toolInput: [EnumWithMethodsToolInput]);
 
     expect(
-      model.callableTools(),
+      model.callableTools,
       [
         const CallableTool(
           toolName: 'enum_with_methods_tool',
