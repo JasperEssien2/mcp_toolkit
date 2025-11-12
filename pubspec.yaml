@@ -1,7 +1,7 @@
 name: mcp_toolkit
 description: A tool that utilizes annotation and extracts metadata from models for mcp tools
 version: 0.1.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/JasperEssien2/mcp_toolkit
 
 environment:
   sdk: ">=3.9.2 <4.0.0"

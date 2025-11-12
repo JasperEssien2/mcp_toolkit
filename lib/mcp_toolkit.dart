@@ -1,8 +1,6 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
 library;
 
-export 'src/mcp_toolkit_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/annotations/annotations.dart';
+export 'src/mcp_model_tool_mapper.dart';
+export 'src/models/callable_property_schema.dart';
+export 'src/models/callable_tool.dart';

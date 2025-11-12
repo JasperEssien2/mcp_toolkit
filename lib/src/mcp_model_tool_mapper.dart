@@ -5,13 +5,24 @@ import 'package:mcp_toolkit/src/annotations/annotations.dart';
 import 'package:mcp_toolkit/src/models/callable_property_schema.dart';
 import 'package:mcp_toolkit/src/models/callable_tool.dart';
 
-//TODO(jasperessien): Introduce a method, get callable tool by name, use hash map implementation, maybe create initialize()
 class MCPModelToolMapper {
-  MCPModelToolMapper({required this.toolModelTypes});
+  MCPModelToolMapper({required List<Type> toolInput}) : _toolModelTypes = toolInput;
 
-  final List<Type> toolModelTypes;
+  final List<Type> _toolModelTypes;
 
-  List<CallableTool> callableTools() => [for (final input in toolModelTypes) ?_callableToolFromInputType(input)];
+  final _toolNameToCallableTool = <String, CallableTool>{};
+
+  void initialize() {
+    for (final input in _toolModelTypes) {
+      if (_callableToolFromInputType(input) case final tool?) {
+        _toolNameToCallableTool[tool.toolName] = tool;
+      }
+    }
+  }
+
+  CallableTool? callableToolByName(String toolName) => _toolNameToCallableTool[toolName];
+
+  List<CallableTool> get callableTools => _toolNameToCallableTool.values.toList();
 
   CallableTool? _callableToolFromInputType(Type toolInput) {
     final reflected = reflectClass(toolInput);
@@ -62,7 +73,7 @@ class MCPModelToolMapper {
           .map((e) => MirrorSystem.getName(e.key))
           .toList();
 
-      // TODO(jasperessien): What happens when enum has variables? and methods {basically enhanced enum features}
+      // TODO(jasperessien): What happens when enum has variables?
       return EnumSchema(name: name, description: description, isRequired: isRequired, options: options);
     }
 
