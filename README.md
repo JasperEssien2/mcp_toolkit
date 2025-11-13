@@ -139,14 +139,6 @@ The `mcp_toolkit` generates schemas that are conceptually similar to JSON Schema
 
 ## Limitations of the package
 
-*   **Enum variables as values:** When defining an enum with additional variables or methods, `mcp_toolkit` currently includes these variable names as part of the enum's possible values. For example:
-    ```dart
-    enum MyEnum {
-      value1,
-      value2;
-      final String someVariable = 'test'; // 'someVariable' will be included in enum options
-    }
-    ```
 *   **No support for Record types:** The package does not currently support extracting metadata from Dart `Record` types due to limitations with `dart:mirrors`.
 *   **`isRequired` for named parameters:** Due to a known limitation in `dart:mirrors`, the `paramMirror.isOptional` property always returns `true` for named parameters. This means the `isRequired` property in `@MCPToolProperty` might not accurately reflect the optionality of named parameters as intended by Dart's null-safety.
 *   **Limited dynamic type handling:** The package may return an `InvalidSchema` for complex or unhandled Dart types that do not have a direct mapping to the supported schema types.
