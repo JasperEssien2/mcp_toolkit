@@ -181,6 +181,22 @@ void main() {
       ],
     );
   });
+
+  test('ensure mapper returns correct structure for EnumWithVariableToolInput and excludes variable from options', () {
+    final model = MCPModelToolMapper(toolInput: [EnumWithVariableToolInput])..initialize();
+
+    expect(
+      model.callableTools,
+      [
+        const CallableTool(
+          toolName: 'enum_with_variable_tool',
+          properties: [
+            EnumSchema(name: 'action', description: 'Action with a variable', options: ['start', 'stop']),
+          ],
+        ),
+      ],
+    );
+  });
 }
 
 @MCPToolInput(toolName: 'simple_tool', toolDescription: 'A simple test tool')
@@ -302,4 +318,21 @@ enum ActionWithMethods {
   stop;
 
   String describe() => 'This action is $name';
+}
+
+@MCPToolInput(toolName: 'enum_with_variable_tool')
+class EnumWithVariableToolInput {
+  const EnumWithVariableToolInput({required this.action});
+
+  @MCPToolProperty(description: 'Action with a variable')
+  final ActionWithVariable action;
+}
+
+enum ActionWithVariable {
+  start('Start the process'),
+  stop('Stop the process');
+
+  const ActionWithVariable(this.description);
+
+  final String description;
 }
