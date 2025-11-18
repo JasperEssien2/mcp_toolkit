@@ -21,6 +21,7 @@ void main() {
                 IntSchema(name: 'param2', description: 'The second parameter', isRequired: false),
                 BooleanSchema(name: 'boolean_param', description: 'The third parameter', isRequired: false),
               ],
+              requiredProperties: ['param1'],
             ),
           ],
         );
@@ -48,6 +49,7 @@ void main() {
                 ),
                 EnumSchema(name: 'status', description: 'Status of the user', options: ['value1', 'value2']),
               ],
+              requiredProperties: ['name'],
             ),
           ],
         );
@@ -72,8 +74,10 @@ void main() {
                       BooleanSchema(name: 'value'),
                     ],
                   ),
+                  isRequired: true,
                 ),
               ],
+              requiredProperties: ['data'],
             ),
           ],
         );
@@ -91,6 +95,7 @@ void main() {
                 StringSchema(name: 'custom_first_param', description: 'Custom named first parameter'),
                 IntSchema(name: 'custom_second_param'),
               ],
+              requiredProperties: [],
             ),
           ],
         );
@@ -105,6 +110,7 @@ void main() {
             const CallableTool(
               toolName: 'no_properties_tool',
               properties: [],
+              requiredProperties: [],
             ),
           ],
         );
@@ -127,6 +133,7 @@ void main() {
               properties: [
                 InvalidSchema(name: 'record', error: 'Does not support Record type'),
               ],
+              requiredProperties: [],
             ),
           ],
         );
@@ -147,6 +154,7 @@ void main() {
             const CallableTool(
               toolName: 'tool_with_no_properties_but_annotation',
               properties: [],
+              requiredProperties: [],
             ),
           ],
         );
@@ -175,8 +183,14 @@ void main() {
         const CallableTool(
           toolName: 'enum_with_methods_tool',
           properties: [
-            EnumSchema(name: 'action', description: 'Action with methods', options: ['start', 'stop']),
+            EnumSchema(
+              name: 'action',
+              description: 'Action with methods',
+              options: ['start', 'stop'],
+              isRequired: true,
+            ),
           ],
+          requiredProperties: ['action'],
         ),
       ],
     );
@@ -193,6 +207,7 @@ void main() {
           properties: [
             EnumSchema(name: 'action', description: 'Action with a variable', options: ['start', 'stop']),
           ],
+          requiredProperties: [],
         ),
       ],
     );
@@ -258,7 +273,7 @@ class NestedObject {
 class ListOfObjectsToolInput {
   const ListOfObjectsToolInput({required this.data});
 
-  @MCPToolProperty(description: 'List of data objects')
+  @MCPToolProperty(description: 'List of data objects', isRequired: true)
   final List<NestedObject> data;
 }
 
@@ -309,7 +324,7 @@ class UnsupportedRecordToolInput {
 class EnumWithMethodsToolInput {
   const EnumWithMethodsToolInput({required this.action});
 
-  @MCPToolProperty(description: 'Action with methods')
+  @MCPToolProperty(description: 'Action with methods', isRequired: true)
   final ActionWithMethods action;
 }
 
