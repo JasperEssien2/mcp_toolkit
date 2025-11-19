@@ -24,7 +24,7 @@ class StringSchema extends CallablePropertySchema {
   String get jsonType => 'string';
 
   @override
-  Map<String, dynamic> toJson() => {'type': jsonType, 'name': ?name, 'description': ?description};
+  Map<String, dynamic> toJson() => {'type': jsonType, 'description': ?description};
 }
 
 class BooleanSchema extends CallablePropertySchema {
@@ -36,7 +36,7 @@ class BooleanSchema extends CallablePropertySchema {
   String get jsonType => 'boolean';
 
   @override
-  Map<String, dynamic> toJson() => {'type': jsonType, 'name': ?name, 'description': ?description};
+  Map<String, dynamic> toJson() => {'type': jsonType, 'description': ?description};
 }
 
 class NumberSchema extends CallablePropertySchema {
@@ -48,7 +48,7 @@ class NumberSchema extends CallablePropertySchema {
   String get jsonType => 'number';
 
   @override
-  Map<String, dynamic> toJson() => {'type': jsonType, 'name': ?name, 'description': ?description};
+  Map<String, dynamic> toJson() => {'type': jsonType, 'description': ?description};
 }
 
 class IntSchema extends CallablePropertySchema {
@@ -60,7 +60,7 @@ class IntSchema extends CallablePropertySchema {
   String get jsonType => 'integer';
 
   @override
-  Map<String, dynamic> toJson() => {'type': jsonType, 'name': ?name, 'description': ?description};
+  Map<String, dynamic> toJson() => {'type': jsonType, 'description': ?description};
 }
 
 class ListSchema extends CallablePropertySchema {
@@ -77,7 +77,6 @@ class ListSchema extends CallablePropertySchema {
   @override
   Map<String, dynamic> toJson() => {
     'type': jsonType,
-    'name': ?name,
     'description': ?description,
     'items': type.toJson(),
   };
@@ -97,7 +96,6 @@ class EnumSchema extends CallablePropertySchema {
   @override
   Map<String, dynamic> toJson() => {
     'type': jsonType,
-    'name': ?name,
     'description': ?description,
     'enum': options,
   };
@@ -124,7 +122,6 @@ class ObjectSchema extends CallablePropertySchema {
   @override
   Map<String, dynamic> toJson() => {
     'type': jsonType,
-    'name': ?name,
     'description': ?description,
     if (properties case final properties?)
       'properties': {for (final property in properties) property.name: property.toJson()},
@@ -139,7 +136,7 @@ class NullSchema extends CallablePropertySchema {
   String get jsonType => 'null';
 
   @override
-  Map<String, dynamic> toJson() => {'type': jsonType, 'name': ?name, 'description': ?description};
+  Map<String, dynamic> toJson() => {'type': jsonType, 'description': ?description};
 }
 
 class InvalidSchema extends CallablePropertySchema {
