@@ -33,7 +33,14 @@ class MCPModelToolMapper {
     )) {
       final properties = _getCallablePropertiesFromClass(reflected);
 
-      return CallableTool(toolName: name, toolDescription: description, properties: properties);
+      return CallableTool(
+        toolName: name,
+        toolDescription: description,
+        inputSchema: ObjectSchema(
+          properties: properties,
+          requiredProperties: _getRequiredProperties(properties),
+        ),
+      );
     }
 
     return null;
@@ -54,14 +61,14 @@ class MCPModelToolMapper {
       (#String, _) => const StringSchema.type(),
       (#bool, _) => const BooleanSchema.type(),
       // TODO(jasperessien): Think of a better way to handle this, instead of passing an empty string
-      (_, final type?) => _handleOtherType(type: type.reflectedType, name: '', description: null, isRequired: null),
+      (_, final type?) => _handleOtherType(type: type.reflectedType, name: null, description: null, isRequired: null),
       (final symbol, _) => InvalidSchema(name: name, description: description, error: 'Cannot handle: $symbol'),
     },
   );
 
   CallablePropertySchema _handleOtherType({
     required Type type,
-    required String name,
+    required String? name,
     required String? description,
     required bool? isRequired,
   }) {
@@ -82,7 +89,13 @@ class MCPModelToolMapper {
     }
 
     if (_getCallablePropertiesFromClass(reflected) case final properties when properties.isNotEmpty) {
-      return ObjectSchema(name: name, description: description, isRequired: isRequired, properties: properties);
+      return ObjectSchema(
+        name: name,
+        description: description,
+        isRequired: isRequired,
+        properties: properties,
+        requiredProperties: _getRequiredProperties(properties),
+      );
     }
 
     return InvalidSchema(name: name, description: description, error: 'Cannot handle type ${reflected.reflectedType}');
@@ -92,6 +105,11 @@ class MCPModelToolMapper {
     VariableMirror(:final type) when reflected.reflectedType == type.reflectedType => true,
     _ => false,
   };
+
+  List<String> _getRequiredProperties(List<CallablePropertySchema> properties) => [
+    for (final property in properties)
+      if ((property.name, property.isRequired) case (final name?, final required?) when required) name,
+  ];
 
   // ignore: avoid_dynamic
   dynamic _findCallableToolPropertyFromDeclaration(MapEntry<Symbol, DeclarationMirror> declaration) =>
