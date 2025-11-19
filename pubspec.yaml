@@ -1,6 +1,7 @@
 name: mcp_toolkit
 description: A tool that utilizes annotation and extracts metadata from models for mcp tools
 version: 0.1.0
+homepage: https://github.com/JasperEssien2/mcp_toolkit
 repository: https://github.com/JasperEssien2/mcp_toolkit
 
 environment:
