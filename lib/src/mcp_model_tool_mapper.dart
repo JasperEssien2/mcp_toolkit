@@ -60,7 +60,6 @@ class MCPModelToolMapper {
       (#num, _) => const NumberSchema.type(),
       (#String, _) => const StringSchema.type(),
       (#bool, _) => const BooleanSchema.type(),
-      // TODO(jasperessien): Think of a better way to handle this, instead of passing an empty string
       (_, final type?) => _handleOtherType(type: type.reflectedType, name: null, description: null, isRequired: null),
       (final symbol, _) => InvalidSchema(name: name, description: description, error: 'Cannot handle: $symbol'),
     },
