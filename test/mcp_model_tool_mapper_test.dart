@@ -1,9 +1,9 @@
 // ignore_for_file: inference_failure_on_collection_literal
 
-import 'package:mcp_toolkit/src/annotations/annotations.dart';
-import 'package:mcp_toolkit/src/mcp_model_tool_mapper.dart';
-import 'package:mcp_toolkit/src/models/callable_property_schema.dart';
-import 'package:mcp_toolkit/src/models/callable_tool.dart';
+import 'package:dart_mcp_toolkit/src/annotations/annotations.dart';
+import 'package:dart_mcp_toolkit/src/mcp_model_tool_mapper.dart';
+import 'package:dart_mcp_toolkit/src/models/callable_property_schema.dart';
+import 'package:dart_mcp_toolkit/src/models/callable_tool.dart';
 import 'package:test/test.dart';
 
 void main() {

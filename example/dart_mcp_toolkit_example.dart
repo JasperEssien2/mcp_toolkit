@@ -1,6 +1,6 @@
 import 'dart:developer' as logger;
 
-import 'package:mcp_toolkit/mcp_toolkit.dart';
+import 'package:dart_mcp_toolkit/dart_mcp_toolkit.dart';
 
 void main() {
   logger.log('=== MCP Toolkit Example ===\n');

@@ -1,17 +1,17 @@
-# mcp_toolkit
+# dart_mcp_toolkit
 
 A Dart package that utilizes annotations to extract metadata from models for Model Context Protocol (MCP) tools.
 
 ## What the package is about
 
-`mcp_toolkit` is a Dart package designed to streamline the definition of models representing MCP server tools and their input schemas. It leverages Dart's reflection capabilities (`dart:mirrors`) and custom annotations (`@MCPToolInput`, `@MCPToolProperty`) to allow developers to declare tool inputs and their properties directly within their Dart classes. This approach eliminates the need for manual schema creation and maintenance, promoting a more declarative and less error-prone way to define tools.
+`dart_mcp_toolkit` is a Dart package designed to streamline the definition of models representing MCP server tools and their input schemas. It leverages Dart's reflection capabilities (`dart:mirrors`) and custom annotations (`@MCPToolInput`, `@MCPToolProperty`) to allow developers to declare tool inputs and their properties directly within their Dart classes. This approach eliminates the need for manual schema creation and maintenance, promoting a more declarative and less error-prone way to define tools.
 
 ## Use Case of the package
 
 This package is ideal for scenarios where you need to:
 *   **Define callable tools declaratively:** Instead of manually constructing tool definitions with their input schemas, you can define a Dart model class that represents the tool's input using annotations.
     
-    **Before `mcp_toolkit` (Hardcoding Tool Definition):**
+    **Before `dart_mcp_toolkit` (Hardcoding Tool Definition):**
     ```dart
     Tool(
         name: 'readFile',
@@ -24,7 +24,7 @@ This package is ideal for scenarios where you need to:
       )
     ```
 
-    **With `mcp_toolkit` (Model-based Definition):**
+    **With `dart_mcp_toolkit` (Model-based Definition):**
     ```dart
     @MCPToolInput(
       toolName: 'readFile',
@@ -46,13 +46,13 @@ This package is ideal for scenarios where you need to:
 1.  **Add dependencies:**
     ```yaml
     dependencies:
-      mcp_toolkit: ^0.1.0 # Use the latest version
+      dart_mcp_toolkit: ^0.1.0 # Use the latest version
     ```
 
 2.  **Define your tool inputs and properties** using the `@MCPToolInput` and `@MCPToolProperty` annotations:
 
     ```dart
-    import 'package:mcp_toolkit/mcp_toolkit.dart';
+    import 'package:dart_mcp_toolkit/mcp_toolkit.dart';
 
     @MCPToolInput(
       toolName: 'getCurrentWeather',
@@ -234,9 +234,9 @@ final schemaJson = tool?.inputSchema?.toJson();
 
 ## Schema Types Supported
 
-The `mcp_toolkit` generates schemas that are compatible with JSON Schema, commonly used with JSON-RPC 2.0 and MCP for describing parameters.
+The `dart_mcp_toolkit` generates schemas that are compatible with JSON Schema, commonly used with JSON-RPC 2.0 and MCP for describing parameters.
 
-| `mcp_toolkit` Schema Type | Corresponding JSON Schema Type | Description | Dart Type Examples |
+| `dart_mcp_toolkit` Schema Type | Corresponding JSON Schema Type | Description | Dart Type Examples |
 | :------------------------ | :----------------------------- | :---------- | :----------------- |
 | [`StringSchema`](lib/src/models/callable_property_schema.dart) | `string` | Represents a string value | `String` |
 | [`BooleanSchema`](lib/src/models/callable_property_schema.dart) | `boolean` | Represents a boolean value | `bool` |

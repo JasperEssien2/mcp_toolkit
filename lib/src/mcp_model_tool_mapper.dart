@@ -1,9 +1,9 @@
 import 'dart:mirrors';
 
 import 'package:collection/collection.dart';
-import 'package:mcp_toolkit/src/annotations/annotations.dart';
-import 'package:mcp_toolkit/src/models/callable_property_schema.dart';
-import 'package:mcp_toolkit/src/models/callable_tool.dart';
+import 'package:dart_mcp_toolkit/src/annotations/annotations.dart';
+import 'package:dart_mcp_toolkit/src/models/callable_property_schema.dart';
+import 'package:dart_mcp_toolkit/src/models/callable_tool.dart';
 
 class MCPModelToolMapper {
   MCPModelToolMapper({required List<Type> toolInput}) : _toolModelTypes = toolInput;
