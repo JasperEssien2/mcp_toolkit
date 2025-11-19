@@ -97,7 +97,11 @@ class MCPModelToolMapper {
       );
     }
 
-    return InvalidSchema(name: name, description: description, error: 'Cannot handle type ${reflected.reflectedType}');
+    return InvalidSchema(
+      name: name,
+      description: description,
+      error: 'Cannot handle type ${MirrorSystem.getName(reflected.simpleName)}',
+    );
   }
 
   bool _isEnumValue(DeclarationMirror declaration, ClassMirror reflected) => switch (declaration) {
