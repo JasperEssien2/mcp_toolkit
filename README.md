@@ -238,15 +238,15 @@ The `dart_mcp_toolkit` generates schemas that are compatible with JSON Schema, c
 
 | `dart_mcp_toolkit` Schema Type | Corresponding JSON Schema Type | Description | Dart Type Examples |
 | :------------------------ | :----------------------------- | :---------- | :----------------- |
-| [`StringSchema`](lib/src/models/callable_property_schema.dart) | `string` | Represents a string value | `String` |
-| [`BooleanSchema`](lib/src/models/callable_property_schema.dart) | `boolean` | Represents a boolean value | `bool` |
-| [`NumberSchema`](lib/src/models/callable_property_schema.dart) | `number` | Represents a numeric value (integers or floating-point) | `num`, `double` |
-| [`IntSchema`](lib/src/models/callable_property_schema.dart) | `integer` | Represents an integer value | `int` |
-| [`ListSchema`](lib/src/models/callable_property_schema.dart) | `array` | Represents an ordered list of values | `List<T>` |
-| [`EnumSchema`](lib/src/models/callable_property_schema.dart) | `string` with `enum` | Represents a value from a predefined set | Any Dart `enum` |
-| [`ObjectSchema`](lib/src/models/callable_property_schema.dart) | `object` | Represents a structured object with named properties | Custom classes |
-| [`NullSchema`](lib/src/models/callable_property_schema.dart) | `null` | Represents a null value | - |
-| [`InvalidSchema`](lib/src/models/callable_property_schema.dart) | - | Represents an unsupported or invalid type | Unsupported types |
+| [`StringPropertySchema`](lib/src/models/callable_property_schema.dart) | `string` | Represents a string value | `String` |
+| [`BooleanPropertySchema`](lib/src/models/callable_property_schema.dart) | `boolean` | Represents a boolean value | `bool` |
+| [`NumberPropertySchema`](lib/src/models/callable_property_schema.dart) | `number` | Represents a numeric value (integers or floating-point) | `num`, `double` |
+| [`IntPropertySchema`](lib/src/models/callable_property_schema.dart) | `integer` | Represents an integer value | `int` |
+| [`ListPropertySchema`](lib/src/models/callable_property_schema.dart) | `array` | Represents an ordered list of values | `List<T>` |
+| [`EnumPropertySchema`](lib/src/models/callable_property_schema.dart) | `string` with `enum` | Represents a value from a predefined set | Any Dart `enum` |
+| [`ObjectPropertySchema`](lib/src/models/callable_property_schema.dart) | `object` | Represents a structured object with named properties | Custom classes |
+| [`NullPropertySchema`](lib/src/models/callable_property_schema.dart) | `null` | Represents a null value | - |
+| [`InvalidPropertySchema`](lib/src/models/callable_property_schema.dart) | - | Represents an unsupported or invalid type | Unsupported types |
 
 
 ## Limitations
